@@ -1,0 +1,6 @@
+@DoConnectWebAPI_HostAddress = http://localhost:5027
+
+GET {{DoConnectWebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
