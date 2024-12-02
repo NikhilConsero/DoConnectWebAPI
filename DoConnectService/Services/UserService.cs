@@ -10,15 +10,18 @@ namespace DoConnectService.Services
 {
     public class UserService : IUserService
     {
-        IUserRepository _users;
+        IUserRepository _repository;
+        public UserService(IUserRepository users)
+        {
+            _repository = users; }
         public void AddUser(Users u)
         {
-            _users.AddUser(u);
+            _repository.AddUser(u);
         }
 
         public List<Users> GetUsers()
         {
-            return _users.GetAll();
+            return _repository.GetAll();
         }
     }
 }

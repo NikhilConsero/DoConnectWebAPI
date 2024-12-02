@@ -24,7 +24,7 @@ namespace DoConnectWebAPI.Controllers
         public IActionResult AddUser(Users u)
         {
             _userService.AddUser(u);
-            object result = "Product Added Successfully";
+            object result = "User Added Successfully";
             return Ok(result);
         }
     }

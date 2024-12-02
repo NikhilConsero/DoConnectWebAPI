@@ -11,15 +11,15 @@ namespace DoConnectRepository.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        UserContext _repository;
-        public UserRepository(UserContext userdbcontext) 
+        UserDbContext _context;
+        public UserRepository(UserDbContext userdbcontext) 
         {
-            _repository = userdbcontext;
+            _context = userdbcontext;
         }
-        public void AddUser(Users u)
+        public void AddUser(Users user)
         {
-            _repository.Userslist.Add(u);
-            _repository.SaveChanges();//Execute Query  
+            _context.Users.Add(user);
+            _context.SaveChanges();//Execute Query  
         }
 
         public void DeleteUser()
@@ -28,6 +28,11 @@ namespace DoConnectRepository.Repositories
         }
 
         public List<Users> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Users GetUsersbyUsername()
         {
             throw new NotImplementedException();
         }
