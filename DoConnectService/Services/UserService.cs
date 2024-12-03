@@ -13,15 +13,17 @@ namespace DoConnectService.Services
         IUserRepository _repository;
         public UserService(IUserRepository users)
         {
-            _repository = users; }
-        public void AddUser(Users u)
-        {
-            _repository.AddUser(u);
+            _repository = users; 
         }
 
-        public List<Users> GetUsers()
+        public Users Login(string email, string password)
         {
-            return _repository.GetAll();
+            return _repository.Login(email,password);
+        }
+
+        public void Regitser(Users user)
+        {
+           _repository.Register(user);
         }
     }
 }

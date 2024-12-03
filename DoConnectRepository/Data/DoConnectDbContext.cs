@@ -8,9 +8,9 @@ using DoConnectEntity;
 
 namespace DoConnectRepository.Data
 {
-    public class UserDbContext:DbContext
+    public class DoConnectDbContext:DbContext
     {
-        public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
+        public DoConnectDbContext(DbContextOptions<DoConnectDbContext> options) : base(options)
         { 
         }
         public DbSet<Users> Users { get; set; }

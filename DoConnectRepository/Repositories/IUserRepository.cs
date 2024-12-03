@@ -9,10 +9,7 @@ namespace DoConnectRepository.Repositories
 {
     public interface IUserRepository
     {
-        void AddUser(Users user);
-        void UpdateUser();
-        void DeleteUser();
-        List<Users> GetAll();
-        Users GetUsersbyUsername();
+        void Register(Users user);
+        Users Login(string email,string password);
     }   
 }

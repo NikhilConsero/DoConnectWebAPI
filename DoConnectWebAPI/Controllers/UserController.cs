@@ -14,18 +14,24 @@ namespace DoConnectWebAPI.Controllers
         {
             _userService = userService;
         }
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody]Users user)
         {
-            var result = _userService.GetUsers();
-            return Ok(result);
+            _userService.Regitser(user);
+            return Ok("User Registered Successfully");
         }
-        [HttpPost]
-        public IActionResult AddUser(Users u)
-        {
-            _userService.AddUser(u);
-            object result = "User Added Successfully";
-            return Ok(result);
-        }
+        //[HttpPost]
+        //public IActionResult Login(string email, string password)
+        //{
+        //    Users usr = _userService.Login(email, password);
+        //    if (usr != null)
+        //    {
+        //        return Ok("Login Successfull");
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
     }
 }
