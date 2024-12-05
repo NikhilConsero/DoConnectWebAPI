@@ -16,6 +16,7 @@ namespace DoConnectWebAPI.Controllers
             _questionService = questionService;
         }
         [HttpPost("AskQuestion")]
+        [Authorize]
         public IActionResult AskQuestion(Questions question)
         {
             _questionService.AskQuestion(question);
@@ -23,6 +24,7 @@ namespace DoConnectWebAPI.Controllers
             return Ok(result);
         }
         [HttpDelete("DeleteQuestion")]
+        [Authorize]
         public IActionResult DeleteQuestion(int questionId)
         {
             _questionService.DeleteQuestion(questionId);
@@ -30,12 +32,14 @@ namespace DoConnectWebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("GetQuestionByID")]
+        [Authorize]
         public IActionResult GetQuestionByID(int questionId)
         {
             var result =_questionService.GetQuestionByID(questionId);
             return Ok(result);
         }
         [HttpGet("GetQuestionOfUser")]
+        [Authorize]
         public IActionResult GetUsersQuestions(string username)
         {
             var result = _questionService.GetUsersQuestion(username);

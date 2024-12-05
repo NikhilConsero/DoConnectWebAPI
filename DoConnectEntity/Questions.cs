@@ -14,8 +14,9 @@ namespace DoConnectEntity
         public int Qid {  get; set; }
         public string topicname {  get; set; }
         public string question {  get; set; }
-        [ForeignKey(nameof(username))]
         public string username {  get; set; }
-
+        [ForeignKey("UserID")]
+        public int UserId { get; set; }
+        public Users ? user { get; set; }
     }
 }
