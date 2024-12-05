@@ -50,7 +50,8 @@ namespace DoConnectWebAPI.Controllers
 
                     var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
 
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    string tokenvalue =new JwtSecurityTokenHandler().WriteToken(token);
+                    return Ok(new {Token = tokenvalue,Users= usr});
                 }
                 else
                 {
@@ -64,7 +65,7 @@ namespace DoConnectWebAPI.Controllers
         }
         private async Task<Users> GetUser(string email, string password)
         {
-            Users user = _userService.Login(email,password);
+            Users user =  _userService.Login(email,password);
             return user;
             //UserInfo userInfo = null;
             //var result = _context.userInfo.Where(u => u.Email == email && u.Password == password);
@@ -78,7 +79,6 @@ namespace DoConnectWebAPI.Controllers
             //    userInfo.Mobile = item.Mobile;
             //}
             //return userInfo;
-
         }
     }
 }
