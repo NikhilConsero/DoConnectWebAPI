@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DoConnectRepository.Repositories
 {
     public class QuestionRepository:IQuestionRepository
-    {
+    {       
         DoConnectDbContext _dbcontext;
         public QuestionRepository(DoConnectDbContext context)
         {
