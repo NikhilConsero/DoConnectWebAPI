@@ -29,7 +29,11 @@ namespace DoConnectWebAPI.Controllers
         public IActionResult Register([FromBody]Users user)
         {
             _userService.Regitser(user);
-            return Ok("User Registered Successfully");
+            response rs = new response();
+            rs.statuscode = 200;
+            rs.result = "User Registered Successfully";
+            rs.message = "User Added";
+            return Ok(rs);
         }
         private string GenerateJSONWebToken(Users userInfo)
         {
@@ -54,16 +58,30 @@ namespace DoConnectWebAPI.Controllers
         [HttpPost("Login")]
         public IActionResult Login(string email, string password)
         {
+            response rs = new response();
             Users usr = _userService.Login(email, password);
             if (usr != null)
             {
-                var res = (GenerateJSONWebToken(usr));
-                return Ok(res);
+                rs.statuscode = 200;
+
+                rs.result= (GenerateJSONWebToken(usr));
+                rs.message ="Login Success";
+                return Ok(rs);
             }
             else
             {
-                return NotFound();
+                rs.statuscode = 200;
+
+                rs.result ="User Not Found or Incorrect Login";
+                rs.message = "Login Success";
+                return NotFound(rs);
             }
         }
+    }
+    public class response
+    {
+        public object statuscode { get; set; }
+        public object result { get; set; }
+        public object message { get;set; }
     }
 }
