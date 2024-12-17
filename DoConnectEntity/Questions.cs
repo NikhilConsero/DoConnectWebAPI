@@ -17,6 +17,7 @@ namespace DoConnectEntity
         public string username {  get; set; }
         [ForeignKey("UserID")]
         public int UserId { get; set; }
+        public string approved { get; set; }   
         public Users ? user { get; set; }
     }
 }

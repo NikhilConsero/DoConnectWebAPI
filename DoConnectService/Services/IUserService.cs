@@ -9,7 +9,7 @@ namespace DoConnectService.Services
 {
     public interface IUserService
     {
-        public void Regitser(Users user);
-        public Users Login(string email,string password);
+        public Task Regitser(Users user);
+        public Task<Users> Login(string email,string password);
     }
 }

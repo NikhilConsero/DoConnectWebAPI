@@ -18,28 +18,28 @@ namespace DoConnectRepository.Repositories
 
         }
 
-        public void AskQuestion(Questions question)
+        public async Task AskQuestion(Questions question)
         {
-            _dbcontext.Questions.Add(question);
+            await _dbcontext.Questions.AddAsync(question);
             _dbcontext.SaveChanges();
         }
 
-        public void DeleteQuestion(int id)
+        public async Task DeleteQuestion(int id)
         {
-            Questions obj = _dbcontext.Questions.Find(id);
+             Questions obj = await _dbcontext.Questions.FindAsync(id);
             _dbcontext.Remove(obj);
         }
 
-        public Questions GetQuestionsById(int id)
+        public async Task<Questions> GetQuestionsById(int id)
         {
-            Questions obj= _dbcontext.Questions.Find(id);
+            Questions obj= await _dbcontext.Questions.FindAsync(id);
             return obj;
         }
 
-        public List<Questions> GetUsersQuestion(string username)
+        public async Task<List<Questions>> GetUsersQuestion(string username)
         {
 
-            var list= _dbcontext.Questions.Where(x=>x.username==username).ToList();
+            var list= await _dbcontext.Questions.Where(x=>x.username==username).ToListAsync();
             //var result =list.Find(x => x.username == username).tol;
             return list;
         }

@@ -26,9 +26,9 @@ namespace DoConnectWebAPI.Controllers
             _userService = userService;
         }
         [HttpPost("Register")]
-        public IActionResult Register([FromBody]Users user)
+        public async Task<IActionResult> Register([FromBody]Users user)
         {
-            _userService.Regitser(user);
+            await _userService.Regitser(user);
             response rs = new response();
             rs.statuscode = 200;
             rs.result = "User Registered Successfully";
@@ -43,6 +43,7 @@ namespace DoConnectWebAPI.Controllers
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.username),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.email),
+                new Claim(JwtRegisteredClaimNames.Profile, userInfo.role),
                 new Claim("UserID", userInfo.id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -56,15 +57,15 @@ namespace DoConnectWebAPI.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         [HttpPost("Login")]
-        public IActionResult Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
             response rs = new response();
-            Users usr = _userService.Login(email, password);
+            Users usr = await _userService.Login(email, password);
             if (usr != null)
             {
                 rs.statuscode = 200;
-
-                rs.result= (GenerateJSONWebToken(usr));
+                rs.result = usr;
+                rs.token= (GenerateJSONWebToken(usr));
                 rs.message ="Login Success";
                 return Ok(rs);
             }
@@ -82,6 +83,7 @@ namespace DoConnectWebAPI.Controllers
     {
         public object statuscode { get; set; }
         public object result { get; set; }
+        public object? token { get; set; }
         public object message { get;set; }
     }
 }

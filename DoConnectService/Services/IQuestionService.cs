@@ -9,10 +9,10 @@ namespace DoConnectService.Services
 {
     public interface IQuestionService
     {
-        void AskQuestion(Questions question);
-        void DeleteQuestion(int id);
-        Questions GetQuestionByID(int id);
-        List<Questions> GetUsersQuestion(string username);
+        Task AskQuestion(Questions question);
+        Task DeleteQuestion(int id);
+        Task<Questions> GetQuestionByID(int id);
+        Task<List<Questions>> GetUsersQuestion(string username);
 
     }
 }

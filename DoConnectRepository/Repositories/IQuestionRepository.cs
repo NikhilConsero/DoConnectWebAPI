@@ -9,9 +9,9 @@ namespace DoConnectRepository.Repositories
 {
     public interface IQuestionRepository
     {
-        void AskQuestion(Questions question);
-        void DeleteQuestion(int id);
-        public Questions GetQuestionsById(int id);
-        public List<Questions> GetUsersQuestion(string username);
+        Task AskQuestion(Questions question);
+        Task DeleteQuestion(int id);
+        public Task<Questions> GetQuestionsById(int id);
+        public Task<List<Questions>> GetUsersQuestion(string username);
     }
 }

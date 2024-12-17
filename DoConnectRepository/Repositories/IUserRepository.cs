@@ -9,7 +9,7 @@ namespace DoConnectRepository.Repositories
 {
     public interface IUserRepository
     {
-        void Register(Users user);
-        Users Login(string email, string password);
+        Task Register(Users user);
+        Task<Users> Login(string email, string password);
     }   
 }

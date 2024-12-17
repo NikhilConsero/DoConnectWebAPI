@@ -17,32 +17,32 @@ namespace DoConnectWebAPI.Controllers
         }
         [HttpPost("AskQuestion")]
         [Authorize]
-        public IActionResult AskQuestion(Questions question)
+        public async Task<IActionResult> AskQuestion(Questions question)
         {
-            _questionService.AskQuestion(question);
+            await _questionService.AskQuestion(question);
             object result = "Question Submitted";
             return Ok(result);
         }
         [HttpDelete("DeleteQuestion")]
         [Authorize]
-        public IActionResult DeleteQuestion(int questionId)
+        public async Task<IActionResult> DeleteQuestion(int questionId)
         {
-            _questionService.DeleteQuestion(questionId);
+            await _questionService.DeleteQuestion(questionId);
             object result = "Question Deleted Successfully";
             return Ok(result);
         }
         [HttpGet("GetQuestionByID")]
         [Authorize]
-        public IActionResult GetQuestionByID(int questionId)
+        public async Task<IActionResult> GetQuestionByID(int questionId)
         {
-            var result =_questionService.GetQuestionByID(questionId);
+            var result =await _questionService.GetQuestionByID(questionId);
             return Ok(result);
         }
         [HttpGet("GetQuestionOfUser")]
         [Authorize]
-        public IActionResult GetUsersQuestions(string username)
+        public async Task<IActionResult> GetUsersQuestions(string username)
         {
-            var result = _questionService.GetUsersQuestion(username);
+            var result = await _questionService.GetUsersQuestion(username);
             return Ok(result);
         }
 

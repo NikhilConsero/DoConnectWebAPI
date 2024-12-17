@@ -19,6 +19,7 @@ namespace DoConnectEntity
         public Questions ? questions { get; set; }
         [ForeignKey("Users")]
         public int UserID { get; set; }
+        public string approved { get; set; }
         public Users ? User { get; set; }
     }
 }

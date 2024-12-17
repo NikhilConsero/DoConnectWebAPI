@@ -16,14 +16,14 @@ namespace DoConnectService.Services
             _repository = users; 
         }
 
-        public Users Login(string email, string password)
+        public async Task<Users> Login(string email, string password)
         {
-            return _repository.Login(email,password);
+            return await _repository.Login(email,password);
         }
 
-        public void Regitser(Users user)
+        public async Task Regitser(Users user)
         {
-           _repository.Register(user);
+           await _repository.Register(user);
         }
     }
 }

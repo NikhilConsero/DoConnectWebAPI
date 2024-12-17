@@ -16,16 +16,16 @@ namespace DoConnectRepository.Repositories
         {
             _context = userdbcontext;
         }
-        public  void Register(Users user)
+        public async Task Register(Users user)
         {
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
             _context.SaveChanges();
         }
 
-        public Users Login(string email,string password)
+        public async Task<Users> Login(string email,string password)
         {
             Users userinfo = null; 
-            var result = _context.Users.Where(obj => obj.email == email && obj.password==password).ToList();
+            var result = await _context.Users.Where(obj => obj.email == email && obj.password==password).ToListAsync();
             if (result.Count() > 0)
             {
                 userinfo= result[0];

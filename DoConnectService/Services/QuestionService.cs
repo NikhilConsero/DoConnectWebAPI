@@ -15,24 +15,24 @@ namespace DoConnectService.Services
         {
             _repository = repository;
         }
-        public void AskQuestion(Questions question)
+        public async Task AskQuestion(Questions question)
         {
-            _repository.AskQuestion(question);
+            await _repository.AskQuestion(question);
         }
 
-        public void DeleteQuestion(int id)
+        public async Task DeleteQuestion(int id)
         {
-            _repository.DeleteQuestion(id);
+            await _repository.DeleteQuestion(id);
         }
 
-        public Questions GetQuestionByID(int id)
+        public async Task<Questions> GetQuestionByID(int id)
         {
-            return _repository.GetQuestionsById(id);
+            return await  _repository.GetQuestionsById(id);
         }
 
-        public List<Questions> GetUsersQuestion(string username)
+        public async Task<List<Questions>> GetUsersQuestion(string username)
         {
-            return _repository.GetUsersQuestion(username);
+            return await _repository.GetUsersQuestion(username);
         }
     }
 }
