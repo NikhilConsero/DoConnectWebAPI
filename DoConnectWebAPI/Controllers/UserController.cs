@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DoConnectWebAPI.Controllers
+namespace DoConnectWebAPI.Controllers   
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,14 +19,18 @@ namespace DoConnectWebAPI.Controllers
         IUserService _userService;
         private readonly DoConnectDbContext _context;
         private IConfiguration _config;
-        public UserController(IConfiguration configuration, DoConnectDbContext context, IUserService userService)
+        IAnswersService _answersService;
+        IQuestionService _questionService;
+        public UserController(IConfiguration configuration, DoConnectDbContext context, IUserService userService,IAnswersService answersService,IQuestionService questionService)
         {
             _config = configuration;
             _context = context;
             _userService = userService;
+            _answersService = answersService;
+            _questionService = questionService;
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody]Users user)
+        public async Task<IActionResult> Register([FromBody] Users user)
         {
             await _userService.Regitser(user);
             response rs = new response();
@@ -65,17 +69,56 @@ namespace DoConnectWebAPI.Controllers
             {
                 rs.statuscode = 200;
                 rs.result = usr;
-                rs.token= (GenerateJSONWebToken(usr));
-                rs.message ="Login Success";
+                rs.token = (GenerateJSONWebToken(usr));
+                rs.message = "Login Success";
                 return Ok(rs);
             }
             else
             {
                 rs.statuscode = 200;
 
-                rs.result ="User Not Found or Incorrect Login";
+                rs.result = "User Not Found or Incorrect Login";
                 rs.message = "Login Success";
                 return NotFound(rs);
+            }
+        }
+        [HttpGet("GetCounts")]
+        [Authorize]
+        public async Task<IActionResult> GetCount(string username,string role)
+        {
+            response rs = new response();
+            Counts cnt = new Counts();
+            if (role=="Admin")
+            {
+                cnt.totalanswers = await _answersService.GetTotalAnswer(username);
+                cnt.totalquestions=await _questionService.GetTotalQuestion(username);
+                cnt.totalunapprovedanswer = await _answersService.GetTotalUnapprove();
+                cnt.totalunapprovedquestion = await _questionService.GetTotalUnapprove();
+                cnt.AppovedQuestion = await _questionService.GetApprovedCount(username);
+                cnt.UnappovedQuestion = await _questionService.GetUnapprovedCount(username);
+                cnt.ApprovedAnswers = await _answersService.GetApprovedCount(username);
+                cnt.UnapprovedAnswers = await _answersService.GetUnapprovedCount(username);
+                cnt.WaitQuestion = await _questionService.WaitApprovedCount(username);
+                cnt.WaitAnswer = await _answersService.WaitApprovedCount(username);
+                rs.statuscode = 200;
+                rs.result = cnt;
+                rs.message = "User Posted Status";
+                return Ok(rs);
+            }
+            else 
+            {
+                cnt.totalanswers = await _answersService.GetTotalAnswer(username);
+                cnt.totalquestions = await _questionService.GetTotalQuestion(username);
+                cnt.UnappovedQuestion=await _questionService.GetUnapprovedCount(username);
+                cnt.AppovedQuestion = await _questionService.GetApprovedCount(username);
+                cnt.ApprovedAnswers=await _answersService.GetApprovedCount(username);
+                cnt.UnapprovedAnswers=await _answersService.GetUnapprovedCount(username);
+                cnt.WaitQuestion=await _questionService.WaitApprovedCount(username);
+                cnt.WaitAnswer =await  _answersService.WaitApprovedCount(username);
+                rs.statuscode = 200;
+                rs.result = cnt;
+                rs.message = "User Posted Status";
+                return Ok(rs);
             }
         }
     }
@@ -85,5 +128,19 @@ namespace DoConnectWebAPI.Controllers
         public object result { get; set; }
         public object? token { get; set; }
         public object message { get;set; }
+    }
+    public class Counts
+    {
+        public object totalquestions { get; set; } 
+        public object totalanswers { get; set; }
+        public object ApprovedAnswers {  get; set; }
+        public object UnapprovedAnswers { get; set;}
+        public object AppovedQuestion {  get; set; }
+        public object UnappovedQuestion{ get; set; }
+        public object WaitQuestion {  get; set; }
+        public object WaitAnswer { get; set; }
+        public object totalunapprovedquestion {  get; set; }
+        public object totalunapprovedanswer { get; set; }
+   
     }
 }

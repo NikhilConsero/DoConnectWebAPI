@@ -2,6 +2,7 @@
 using DoConnectService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoConnectWebAPI.Controllers
@@ -19,9 +20,12 @@ namespace DoConnectWebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> AskQuestion(Questions question)
         {
+            Qresponse qres = new Qresponse();
             await _questionService.AskQuestion(question);
-            object result = "Question Submitted";
-            return Ok(result);
+            qres.statuscode = 200;
+            qres.result = "Question Posted";
+            qres.message = "Questions Obtained Successfully";
+            return Ok(qres);
         }
         [HttpDelete("DeleteQuestion")]
         [Authorize]
@@ -45,6 +49,19 @@ namespace DoConnectWebAPI.Controllers
             var result = await _questionService.GetUsersQuestion(username);
             return Ok(result);
         }
+        [HttpGet("GetAllQuestion")]
+        [Authorize]
+        public async Task<IActionResult> GetAllQuestions()
+        {
+            var result = await _questionService.GetAllQuestion();
+            return Ok(result);
+        }   
 
+    }
+    class Qresponse
+    {
+        public object statuscode { get; set; }
+        public object result { get; set; }
+        public object message { get; set; }
     }
 }

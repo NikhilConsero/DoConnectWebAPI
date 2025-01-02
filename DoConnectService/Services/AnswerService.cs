@@ -32,10 +32,40 @@ namespace DoConnectService.Services
             return result;
         }
 
+        public async Task<int> GetApprovedCount(string username)
+        {
+            int res = await _repository.GetApprovedCount(username);
+            return res;
+        }
+
+        public async Task<int> GetTotalUnapprove()
+        {
+            int res =await _repository.GetTotalUnapprove();
+            return res;
+        }
+
+        public async Task<int> GetUnapprovedCount(string username)
+        {
+            int res = await _repository.GetUnapprovedCount(username);
+            return res;
+        }
+
         public async Task<List<Answers>> GetUsersAnswer(string username)
         {
             var result = await _repository.GetUsersAnswer(username);
             return result;
+        }
+
+        public async Task<int> WaitApprovedCount(string username)
+        {
+            int res = await _repository.WaitApprovedCount(username);
+            return res;
+
+        }
+        public async Task<int> GetTotalAnswer(string username)
+        {
+            int res = await _repository.GetTotalAnswer(username);
+            return res;
         }
     }
 }

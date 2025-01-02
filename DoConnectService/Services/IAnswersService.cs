@@ -13,5 +13,10 @@ namespace DoConnectService.Services
         public Task DeleteAnswer(int id);
         public Task<Answers> GetAnswersById(int id);
         public Task<List<Answers>> GetUsersAnswer(string username);
+        public Task<int> GetApprovedCount(string username);
+        public Task<int> GetUnapprovedCount(string username);
+        public Task<int> WaitApprovedCount(string username);
+        public  Task<int> GetTotalUnapprove();
+        public Task<int> GetTotalAnswer(string username);
     }
 }

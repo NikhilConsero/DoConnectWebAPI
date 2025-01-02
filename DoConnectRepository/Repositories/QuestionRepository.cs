@@ -30,10 +30,22 @@ namespace DoConnectRepository.Repositories
             _dbcontext.Remove(obj);
         }
 
+        public async Task<int> GetApprovedCount(string username)
+        {
+            int res = await _dbcontext.Questions.Where(x=>x.username == username && x.approved=="A").CountAsync();
+            return res;
+        }
+
         public async Task<Questions> GetQuestionsById(int id)
         {
             Questions obj= await _dbcontext.Questions.FindAsync(id);
             return obj;
+        }
+
+        public async Task<int> GetUnapprovedCount(string username)
+        {
+            int res = await _dbcontext.Questions.Where(x => x.username == username && x.approved == "N").CountAsync();
+            return res;
         }
 
         public async Task<List<Questions>> GetUsersQuestion(string username)
@@ -41,6 +53,31 @@ namespace DoConnectRepository.Repositories
 
             var list= await _dbcontext.Questions.Where(x=>x.username==username).ToListAsync();
             //var result =list.Find(x => x.username == username).tol;
+            return list;
+        }
+
+        public async Task<int> WaitApprovedCount(string username)
+        {
+            int res = await _dbcontext.Questions.Where(x=>x.username==username && x.approved=="W").CountAsync();
+            return res;
+        }
+        public async Task<int> GetTotalUnapprove()
+        {
+            int res = await _dbcontext.Questions.Where(x => x.approved == "W").CountAsync();
+            return res;
+        }
+
+        public async Task<int> GetTotalQuestion(string username)
+        {
+            int res = await _dbcontext.Questions.Where(x => x.username == username).CountAsync();
+            return res;
+        }
+        public async Task<List<Questions>> GetAllQuestion()
+        {
+
+            var list = await _dbcontext.Questions.ToListAsync();
+            //var result =list.Find(x => x.username == username).tol; 
+            list.Reverse();
             return list;
         }
     }

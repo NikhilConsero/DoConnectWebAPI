@@ -35,10 +35,39 @@ namespace DoConnectRepository.Repositories
             return obj;
         }
 
+        public async Task<int> GetApprovedCount(string username)
+        {
+            int res= await _dbcontext.Answers.Where(x=> x.Username == username && x.approved=="Y").CountAsync();
+            return res;
+        }
+
+        public async  Task<int> GetUnapprovedCount(string username)
+        {
+            int res= await _dbcontext.Answers.Where(x=>x.Username == username && x.approved=="N").CountAsync();
+            return res;
+        }
+
         public async Task<List<Answers>> GetUsersAnswer(string username)
         {
             var list=await _dbcontext.Answers.Where(x=>x.Username==username).ToListAsync();
             return list;
+        }
+
+        public async  Task<int> WaitApprovedCount(string username)
+        {
+            int res = await _dbcontext.Answers.Where(x => x.Username == username && x.approved == "W").CountAsync(); 
+            return res;
+        }
+        public async Task<int> GetTotalUnapprove()
+        {
+            int res = await _dbcontext.Answers.Where(x => x.approved == "W").CountAsync();
+            return res;
+        }
+
+        public async Task<int> GetTotalAnswer(string username)
+        {
+            int res = await _dbcontext.Answers.Where(x => x.Username == username).CountAsync();
+            return res;
         }
     }
 }
